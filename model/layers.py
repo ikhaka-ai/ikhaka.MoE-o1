@@ -67,9 +67,12 @@ class GQAAttention(nn.Module):
         q = apply_rope(q,cos,sin)
         k = apply_rope(k,cos,sin)
 
+        #expands k/v heads to match the number of query heads by repeating each K/V head 'group_size' times.
         k = k.repeat_interleave(self.group_size,dim=1)
         v = v.repeat_interleave(self.group_size,dim=1)
 
+        #F.scaled_dot_product_attention function handles the 1/sqrt(head_dim) scaling.
+        #The 
         out = F.scaled_dot_product_attention(q,k,v,is_causal=True)
 
         out = out.tranpose(1,2).contiguous().view(B,T,self.n_heads*self.head_dim)
