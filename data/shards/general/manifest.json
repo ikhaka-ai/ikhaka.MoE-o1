@@ -1,0 +1,12 @@
+{
+  "domain": "general",
+  "shards": [
+    {
+      "file": "general_00000.npy",
+      "tokens": 1002017
+    }
+  ],
+  "total_tokens": 1002017,
+  "docs_consumed": 848,
+  "tokenizer": "bigcode/starcoder2-7b"
+}

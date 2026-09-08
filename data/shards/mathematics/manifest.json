@@ -1,0 +1,12 @@
+{
+  "domain": "mathematics",
+  "shards": [
+    {
+      "file": "mathematics_00000.npy",
+      "tokens": 1000817
+    }
+  ],
+  "total_tokens": 1000817,
+  "docs_consumed": 562,
+  "tokenizer": "bigcode/starcoder2-7b"
+}

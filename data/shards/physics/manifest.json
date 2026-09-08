@@ -1,0 +1,12 @@
+{
+  "domain": "physics",
+  "shards": [
+    {
+      "file": "physics_00000.npy",
+      "tokens": 1000620
+    }
+  ],
+  "total_tokens": 1000620,
+  "docs_consumed": 136,
+  "tokenizer": "bigcode/starcoder2-7b"
+}

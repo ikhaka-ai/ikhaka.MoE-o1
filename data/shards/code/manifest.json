@@ -1,0 +1,12 @@
+{
+  "domain": "code",
+  "shards": [
+    {
+      "file": "code_00000.npy",
+      "tokens": 1001368
+    }
+  ],
+  "total_tokens": 1001368,
+  "docs_consumed": 1040,
+  "tokenizer": "bigcode/starcoder2-7b"
+}
