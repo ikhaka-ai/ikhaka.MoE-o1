@@ -4,9 +4,209 @@
     {
       "file": "general_00000.npy",
       "tokens": 1002017
+    },
+    {
+      "file": "general_00001.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00002.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00003.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00004.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00005.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00006.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00007.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00008.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00009.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00010.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00011.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00012.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00013.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00014.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00015.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00016.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00017.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00018.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00019.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00020.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00021.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00022.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00023.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00024.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00025.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00026.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00027.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00028.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00029.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00030.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00031.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00032.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00033.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00034.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00035.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00036.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00037.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00038.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00039.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00040.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00041.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00042.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00043.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00044.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00045.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00046.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00047.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00048.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00049.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "general_00050.npy",
+      "tokens": 98998185
     }
   ],
-  "total_tokens": 1002017,
-  "docs_consumed": 848,
+  "total_tokens": 5000000202,
+  "docs_consumed": 4064432,
   "tokenizer": "bigcode/starcoder2-7b"
 }

@@ -4,9 +4,209 @@
     {
       "file": "mathematics_00000.npy",
       "tokens": 1000817
+    },
+    {
+      "file": "mathematics_00001.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00002.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00003.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00004.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00005.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00006.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00007.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00008.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00009.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00010.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00011.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00012.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00013.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00014.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00015.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00016.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00017.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00018.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00019.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00020.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00021.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00022.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00023.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00024.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00025.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00026.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00027.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00028.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00029.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00030.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00031.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00032.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00033.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00034.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00035.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00036.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00037.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00038.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00039.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00040.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00041.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00042.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00043.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00044.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00045.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00046.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00047.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00048.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00049.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "mathematics_00050.npy",
+      "tokens": 99000083
     }
   ],
-  "total_tokens": 1000817,
-  "docs_consumed": 562,
+  "total_tokens": 5000000900,
+  "docs_consumed": 3014360,
   "tokenizer": "bigcode/starcoder2-7b"
 }

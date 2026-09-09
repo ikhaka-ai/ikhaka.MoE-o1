@@ -4,9 +4,209 @@
     {
       "file": "physics_00000.npy",
       "tokens": 1000620
+    },
+    {
+      "file": "physics_00001.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00002.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00003.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00004.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00005.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00006.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00007.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00008.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00009.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00010.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00011.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00012.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00013.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00014.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00015.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00016.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00017.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00018.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00019.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00020.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00021.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00022.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00023.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00024.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00025.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00026.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00027.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00028.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00029.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00030.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00031.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00032.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00033.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00034.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00035.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00036.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00037.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00038.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00039.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00040.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00041.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00042.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00043.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00044.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00045.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00046.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00047.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00048.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00049.npy",
+      "tokens": 100000000
+    },
+    {
+      "file": "physics_00050.npy",
+      "tokens": 99034644
     }
   ],
-  "total_tokens": 1000620,
-  "docs_consumed": 136,
+  "total_tokens": 5000035264,
+  "docs_consumed": 704088,
   "tokenizer": "bigcode/starcoder2-7b"
 }
