@@ -140,6 +140,20 @@ Total, including a failed run and ablations: roughly **$80–120**. Phase 0 is n
 
 ---
 
+## Scaling Ladder Results
+
+Phase 2 in progress: the 100M and 500M-token rungs are complete; the 2B-token rung is partway through (~23% at last checkpoint). Both completed rungs pass the two sanity checks the ladder is built around — no rung regressed against its own starting loss, and loss improved meaningfully from the smaller rung to the larger one (3.72 → 2.62).
+
+![Per-rung loss curves](images/ladder_loss_curves.png)
+
+The 2B-token rung (right) is shown in orange to mark it as still in progress — its curve is real but hasn't finished annealing, so its endpoint isn't a final result yet.
+
+![Scaling fit and 20B-token projection](images/ladder_scaling_fit.png)
+
+With only the two completed rungs, the power-law fit is exactly determined by two points rather than a statistically robust regression, and the projection to 20B tokens is a 40x extrapolation beyond the largest completed data point — a rough estimate, not a confident prediction. Finishing the 2B-token rung will bring a third point onto the curve and cut that extrapolation down to 10x.
+
+---
+
 ## Key References
 
 - Gururangan et al., 2021 — [DEMix Layers](https://arxiv.org/abs/2108.05036) (the architecture this project implements)
