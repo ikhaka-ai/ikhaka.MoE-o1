@@ -1,3 +1,5 @@
+Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
+
 """
 Phase 0-style check for the data pipeline: fabricate tiny shards directly
 (no tokenize.py, no network) and verify the loader's shapes, resumability,

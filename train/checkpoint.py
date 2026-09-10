@@ -1,3 +1,5 @@
+Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
+
 """
 Checkpoint/resume, adapted from the design discussed earlier to match what
 this repo actually has: MixedDomainLoader's per-domain state_dict (see
@@ -61,9 +63,18 @@ def capture_rng() -> dict[str, Any]:
 def restore_rng(state: dict[str, Any]) -> None:
     random.setstate(state["python"])
     np.random.set_state(state["numpy"])
-    torch.set_rng_state(state["torch"])
-    if "cuda" in state and torch.cuda.is_available():
-        torch.cuda.set_rng_state_all(state["cuda"])
+    try:
+        torch.set_rng_state(state["torch"])
+        if "cuda" in state and torch.cuda.is_available():
+            torch.cuda.set_rng_state_all(state["cuda"])
+    except (TypeError, RuntimeError) as e:
+        # torch RNG state isn't always portable across versions/devices --
+        # this only costs byte-identical reproducibility, not correctness
+        # (see this module's docstring). Log and continue rather than
+        # crash a resume over it.
+        log.warning("could not restore torch RNG state (%s) -- continuing "
+                   "without it; resumed batches will differ slightly from "
+                   "an uninterrupted run but remain correct", e)
 
 
 @dataclass

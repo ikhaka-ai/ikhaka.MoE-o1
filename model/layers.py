@@ -1,3 +1,5 @@
+Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
+
 #shared trunk. Every layer in this file runs identically regardless of the domain
 #a token belongs to. This enables the four experts to work together later on.
 #They all read and write to the same residual stream shaped by the same attention.
@@ -9,35 +11,34 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from config import MoEConfig
+from .config import MoEConfig
 
 class RMSNorm(nn.Module):
     def __init__(self, dim: int, eps: float = 1e-5):
         super().__init__()
         self.eps = eps
-        self.weight= nn.Parameter(torch.ones(dim))
+        self.weight = nn.Parameter(torch.ones(dim))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         dtype = x.dtype
         x = x.float()
-        rms = torch.rsqrt(x.pow(2).mean(dim=-1,keepdim=True)+self.eps)
-
-        return (x*rms).to(dtype)*self.weight
+        rms = torch.rsqrt(x.pow(2).mean(dim=-1, keepdim=True) + self.eps)
+        return (x * rms).to(dtype) * self.weight
 
 #rotary positional embeddings(RoPE). Rotates the query and key vectors by an angle proportional to position.
-def precompute_rope(head_dim: int, seq_len: int, theta: float = 10_000.0,device=None)->tuple[torch.Tensor, torch.Tensor]:
-    inv_freq = 1.0/(theta**(torch.arange(0, head_dim,2,device=device).float()/head_dim))
-    t = torch.arange(seq_len,device=device).float()
+def precompute_rope(head_dim: int, seq_len: int, theta: float = 10_000.0, device=None) -> tuple[torch.Tensor, torch.Tensor]:
+    inv_freq = 1.0 / (theta ** (torch.arange(0, head_dim, 2, device=device).float() / head_dim))
+    t = torch.arange(seq_len, device=device).float()
     freqs = torch.outer(t, inv_freq)
     freqs = torch.cat([freqs, freqs], dim=-1)
     return freqs.cos(), freqs.sin()
 
-def _rotate_half(x: torch.Tensor)->torch.Tensor:
-    d = x.shape[-1]//2
+def _rotate_half(x: torch.Tensor) -> torch.Tensor:
+    d = x.shape[-1] // 2
     x1, x2 = x[..., :d], x[..., d:]
-    return torch.cat([-x2, x1], dims=-1)
+    return torch.cat([-x2, x1], dim=-1)
 
-def apply_rope(x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor)->torch.Tensor:
+def apply_rope(x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor) -> torch.Tensor:
     cos = cos[None, None, :, :]
     sin = sin[None, None, :, :]
     return x * cos + _rotate_half(x) * sin
@@ -50,31 +51,30 @@ class GQAAttention(nn.Module):
         self.n_heads = cfg.n_heads
         self.n_kv_heads = cfg.n_kv_heads
         self.head_dim = cfg.head_dim
-        self.group_size = cfg.n_heads//cfg.n_kv_heads
+        self.group_size = cfg.n_heads // cfg.n_kv_heads
 
-        self.q_proj = nn.Linear(cfg.d_model, cfg.n_heads*cfg.head_dim,bias=False)
-        self.k_proj = nn.Linear(cfg.d_model, cfg.n_kv_heads*cfg.head_dim,bias=False)
-        self.v_proj = nn.Linear(cfg.d_model, cfg.n_kv_heads*cfg.head_dim,bias=False)
-        self.o_proj = nn.Linear(cfg.n_heads*cfg.head_dim, cfg.d_model,bias=False)
+        self.q_proj = nn.Linear(cfg.d_model, cfg.n_heads * cfg.head_dim, bias=False)
+        self.k_proj = nn.Linear(cfg.d_model, cfg.n_kv_heads * cfg.head_dim, bias=False)
+        self.v_proj = nn.Linear(cfg.d_model, cfg.n_kv_heads * cfg.head_dim, bias=False)
+        self.o_proj = nn.Linear(cfg.n_heads * cfg.head_dim, cfg.d_model, bias=False)
 
-    def forward(self, x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor)->torch.Tensor:
+    def forward(self, x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor) -> torch.Tensor:
         B, T, _ = x.shape
 
-        q = self.q_proj(x).view(B,T,self.n_heads,self.head_dim).transpose(1,2)
-        k = self.k_proj(x).view(B,T,self.n_kv_heads, self.head_dim).transpose(1,2)
-        v = self.v_proj(x).view(B,T,self.n_kv_heads, self.head_dim).transpose(1,2)
+        q = self.q_proj(x).view(B, T, self.n_heads, self.head_dim).transpose(1, 2)
+        k = self.k_proj(x).view(B, T, self.n_kv_heads, self.head_dim).transpose(1, 2)
+        v = self.v_proj(x).view(B, T, self.n_kv_heads, self.head_dim).transpose(1, 2)
 
-        q = apply_rope(q,cos,sin)
-        k = apply_rope(k,cos,sin)
+        q = apply_rope(q, cos, sin)
+        k = apply_rope(k, cos, sin)
 
         #expands k/v heads to match the number of query heads by repeating each K/V head 'group_size' times.
-        k = k.repeat_interleave(self.group_size,dim=1)
-        v = v.repeat_interleave(self.group_size,dim=1)
+        k = k.repeat_interleave(self.group_size, dim=1)
+        v = v.repeat_interleave(self.group_size, dim=1)
 
         #F.scaled_dot_product_attention function handles the 1/sqrt(head_dim) scaling.
-        #The 
-        out = F.scaled_dot_product_attention(q,k,v,is_causal=True)
+        out = F.scaled_dot_product_attention(q, k, v, is_causal=True)
 
-        out = out.tranpose(1,2).contiguous().view(B,T,self.n_heads*self.head_dim)
-        
+        out = out.transpose(1, 2).contiguous().view(B, T, self.n_heads * self.head_dim)
+
         return self.o_proj(out)

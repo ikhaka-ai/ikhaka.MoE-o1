@@ -1,3 +1,5 @@
+Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
+
 """
 Phase 2 from the design document: before spending $20-26 on the real 20B-
 token run, spend about $5 confirming the model doesn't diverge and that the
@@ -73,6 +75,17 @@ def run_rung(config_name, cfg, shards_dir: Path, checkpoint_root: Path,
     log.info(f"--- rung: {tokens:,} tokens -> {steps:,} steps ---")
     train(args, loss_history=history)
 
+    if not history:
+        # Rung was already fully trained in a prior session (this call's
+        # train() resumed straight to the end and never ran a step) --
+        # its loss curve lived only in that earlier process's memory and
+        # didn't survive the disconnect. Report it as complete without
+        # loss data rather than fabricate a number or crash.
+        print(f"  (rung {tokens:,} tokens was already complete from a "
+             f"prior session -- no loss curve available this run)")
+        return {"tokens": tokens, "steps": steps, "final_loss": None,
+                "first_loss": None, "history": []}
+
     losses = np.array([l for _, l in history])
     if np.isnan(losses).any() or np.isinf(losses).any():
         raise RuntimeError(
@@ -81,8 +94,6 @@ def run_rung(config_name, cfg, shards_dir: Path, checkpoint_root: Path,
             f"rate, gradient clipping, and data before retrying."
         )
 
-    # average the last 10% of steps (min 3) rather than the single final
-    # step -- one noisy batch shouldn't decide whether a rung "looks fine"
     tail = max(3, len(losses) // 10)
     final_loss = float(losses[-tail:].mean())
     return {"tokens": tokens, "steps": steps, "final_loss": final_loss,

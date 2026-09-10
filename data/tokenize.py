@@ -1,3 +1,5 @@
+Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
+
 """
 Phase 1 from the design document: tokenise each domain's corpus once,
 write immutable uint16 shards, and never repeat the work.

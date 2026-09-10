@@ -1,3 +1,5 @@
+Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
+
 """
 The real test of train.py and checkpoint.py: not just "does it run", but
 "does an interrupted run resume to EXACTLY where an uninterrupted run would

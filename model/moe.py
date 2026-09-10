@@ -1,3 +1,5 @@
+Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
+
 #This is the code that makes this an MoE rather than a dense transformer
 #Motivation: Routing is difficult and supervised. The domain expert will pick it's expert. There
 #is no router network, no learned gate, no top-k softmax over experts. Every token in a given sequence
@@ -11,24 +13,24 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from config import MoEConfig
+from .config import MoEConfig
 
 class SwiGLU(nn.Module):
     def __init__(self, d_model: int, d_ff: int):
-        super().__init()
+        super().__init__()
         self.w_gate = nn.Linear(d_model, d_ff, bias=False)
         self.w_up = nn.Linear(d_model, d_ff, bias=False)
         self.w_down = nn.Linear(d_ff, d_model, bias=False)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.w_down(F.silu(self.w_gate(x))*self.w_up(x))
+        return self.w_down(F.silu(self.w_gate(x)) * self.w_up(x))
 
 class DemixMoE(nn.Module):
     def __init__(self, cfg: MoEConfig):
         super().__init__()
-        self.n_experts = cfg.n_experts
-        self.experts = nn.ModuleList(SwiGLU(cfg.d_model, cfg.d_ff) for _ in range(cfg.n_experts))
-        self.register_buffer("_token_counts",torch.zeros(cfg.n_experts, dtype=torch.long),persistent=False,)
+        self.n_experts = cfg.num_experts
+        self.experts = nn.ModuleList(SwiGLU(cfg.d_model, cfg.d_ff) for _ in range(cfg.num_experts))
+        self.register_buffer("_token_counts", torch.zeros(cfg.num_experts, dtype=torch.long), persistent=False)
 
     def forward(self, x: torch.Tensor, domain_ids: torch.Tensor) -> torch.Tensor:
         B, T, D = x.shape
@@ -43,16 +45,16 @@ class DemixMoE(nn.Module):
                 continue
             out[mask] = expert(x[mask])
             if self.training:
-                self._token_counts[expert_id] += int(mask.sum())*T
+                self._token_counts[expert_id] += int(mask.sum()) * T
 
         return out
 
-    def aux_state(self)->dict:
-        return {"token_counts":self._token_counts.clone()}
+    def aux_state(self) -> dict:
+        return {"token_counts": self._token_counts.clone()}
 
-    def load_aux_state(self, state: dict)->None:
+    def load_aux_state(self, state: dict) -> None:
         self._token_counts.copy_(state["token_counts"])
 
-    def utilization(self)->torch.Tensor:
+    def utilization(self) -> torch.Tensor:
         total = self._token_counts.sum().clamp(min=1)
-        return self._token_counts.float()/total
+        return self._token_counts.float() / total
