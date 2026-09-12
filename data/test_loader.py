@@ -5,7 +5,6 @@ Phase 0-style check for the data pipeline: fabricate tiny shards directly
 (no tokenize.py, no network) and verify the loader's shapes, resumability,
 and epoch behaviour -- then feed a batch straight into MoETransformer to
 prove data/ and model/ actually fit together end to end.
-
 Run: python3 -m tests.test_loader
 """
 import json

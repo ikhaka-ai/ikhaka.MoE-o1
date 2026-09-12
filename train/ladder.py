@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 """
 Phase 2 from the design document: before spending $20-26 on the real 20B-
 token run, spend about $5 confirming the model doesn't diverge and that the
@@ -139,11 +137,6 @@ def main():
         print(f"{r['tokens']:>14,}  {r['steps']:>10,}  "
               f"{r['first_loss']:>10.4f}  {r['final_loss']:>10.4f}")
 
-    # A bare `final > first` false-positives on ordinary noise: a few dozen
-    # steps of a tiny/near-random-init run can drift up by a fraction of a
-    # percent with no real problem. 1% margin still catches genuine
-    # blowups (the mild-instability case this check was added for showed
-    # rungs ending 4x-60x their starting loss) while ignoring noise.
     REGRESSION_MARGIN = 1.01
     regressed = [r for r in results
                 if r["final_loss"] > r["first_loss"] * REGRESSION_MARGIN]

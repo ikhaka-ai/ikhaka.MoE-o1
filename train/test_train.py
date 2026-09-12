@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 """
 The real test of train.py and checkpoint.py: not just "does it run", but
 "does an interrupted run resume to EXACTLY where an uninterrupted run would
@@ -102,19 +100,6 @@ def main():
     print(f"[3b] loss trajectory matches at all 10 steps "
           f"(uninterrupted vs interrupted+resumed), within 1e-3")
 
-    # ---------------------------------------------------------------- (4)
-    # the actual guarantee: interrupted-then-resumed and uninterrupted
-    # should follow an IDENTICAL loss trajectory, since both consumed the
-    # same 10 batches in the same order against the same LR schedule.
-    #
-    # Parameters themselves are compared too, but loosely (atol=1e-4, not
-    # 1e-6): PyTorch's CPU matmul is multi-threaded, and summing the same
-    # numbers in a different thread-partition order is not bit-identical
-    # floating point -- this is ordinary non-associativity between two
-    # separate process launches, not a resume defect. A genuine resume bug
-    # (wrong optimizer state, wrong RNG, wrong data position) produces
-    # differences many orders of magnitude larger than this, so atol=1e-4
-    # is still a strict, meaningful check.
     max_diff = 0.0
     for (n1, p1), (n2, p2) in zip(model_full.named_parameters(),
                                   resumed_model.named_parameters()):
@@ -127,9 +112,6 @@ def main():
           f"divergence {max_diff:.2e} (floating-point noise only; a real "
           f"resume bug would show up as >>1e-4). resume is correct.")
 
-    # ---------------------------------------------------------------- (5)
-    # checkpoint pruning: run long enough with frequent saves to exceed
-    # keep_last, confirm old step dirs actually get removed
     ckpt_b = root / "ckpt_b"
     train(args_for(shards_dir, ckpt_b, max_steps=8, save_every_steps=1))
     step_dirs = sorted(ckpt_b.glob("step_*"))

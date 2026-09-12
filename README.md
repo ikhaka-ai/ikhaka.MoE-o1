@@ -148,7 +148,7 @@ Phase 2 in progress: the 100M and 500M-token rungs are complete; the 2B-token ru
 
 The 2B-token rung (right) is shown in orange to mark it as still in progress — its curve is real but hasn't finished annealing, so its endpoint isn't a final result yet.
 
-![Scaling fit and 20B-token projection](images/ladder_scaling_fit(new).png)
+![Scaling fit and 20B-token projection](images/ladder_scaling_fit.png)
 
 With only the two completed rungs, the power-law fit is exactly determined by two points rather than a statistically robust regression, and the projection to 20B tokens is a 40x extrapolation beyond the largest completed data point — a rough estimate, not a confident prediction. Finishing the 2B-token rung will bring a third point onto the curve and cut that extrapolation down to 10x.
 

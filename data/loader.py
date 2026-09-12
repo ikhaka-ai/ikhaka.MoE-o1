@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 """
 Reads what data/tokenize.py wrote and turns it into the (input_ids, targets,
 domain_ids) batches model.MoETransformer.forward() expects.
@@ -14,10 +12,6 @@ Two classes, one per level of the problem:
                          matching exactly how train/smoke_test.py already
                          exercises the model (a batch with several domains
                          mixed together, not a batch-per-domain scheme).
-
-Both are resumable: state_dict()/load_state_dict() round-trip through
-checkpointing.py's CheckpointManager unchanged from the sketch discussed
-earlier in this project.
 """
 
 from __future__ import annotations

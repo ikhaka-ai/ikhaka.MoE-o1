@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 """
 Exercises tokenize_domain()'s actual shard-writing and resume logic without
 touching the network -- huggingface.co isn't reachable from every sandbox,

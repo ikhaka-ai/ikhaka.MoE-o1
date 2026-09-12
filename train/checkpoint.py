@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 """
 Checkpoint/resume, adapted from the design discussed earlier to match what
 this repo actually has: MixedDomainLoader's per-domain state_dict (see
@@ -68,10 +66,6 @@ def restore_rng(state: dict[str, Any]) -> None:
         if "cuda" in state and torch.cuda.is_available():
             torch.cuda.set_rng_state_all(state["cuda"])
     except (TypeError, RuntimeError) as e:
-        # torch RNG state isn't always portable across versions/devices --
-        # this only costs byte-identical reproducibility, not correctness
-        # (see this module's docstring). Log and continue rather than
-        # crash a resume over it.
         log.warning("could not restore torch RNG state (%s) -- continuing "
                    "without it; resumed batches will differ slightly from "
                    "an uninterrupted run but remain correct", e)
@@ -135,10 +129,6 @@ class CheckpointManager:
                        "bytes": final.stat().st_size}, indent=2)
         )
 
-        # COMMIT POINT. latest.json is the only file load_latest() reads --
-        # written last, so a crash before this line leaves step_dir
-        # orphaned but invisible, never mistaken for a valid checkpoint.
-        manifest_tmp = self.cfg.local_dir / (MANIFEST_NAME + ".tmp")
         manifest_tmp.write_text(json.dumps({
             "step": step, "dir": step_dir.name, "sha256": digest,
             "wall_time": time.time(),
@@ -181,10 +171,6 @@ class CheckpointManager:
         return torch.load(state_path, map_location=map_location, weights_only=False)
 
     def close(self) -> None:
-        """Restore the previous signal handlers. Call this when done with
-        the manager in a process that outlives training (tests, notebooks)
-        -- otherwise the next thing to catch SIGINT in this interpreter is
-        silently this object instead of the default handler."""
         signal.signal(signal.SIGTERM, self._prev_sigterm)
         signal.signal(signal.SIGINT, self._prev_sigint)
 

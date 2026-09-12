@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 """
 Phase 1 from the design document: tokenise each domain's corpus once,
 write immutable uint16 shards, and never repeat the work.
@@ -54,33 +52,9 @@ class CorpusSpec:
     split: str
     text_field: str
     streaming_kwargs: dict = field(default_factory=dict)
-    # True for domains that bypass datasets.load_dataset() entirely -- see
-    # _open_stream_direct's docstring for why (Xet protocol failures,
-    # script-based repos datasets refuses to load, etc.)
     use_direct_download: bool = False
-    # For use_direct_download domains only: restricts file listing to this
-    # path prefix within the repo. Needed when a repo bundles multiple
-    # releases together (peS2o's repo has data/v1/, data/v2/, data/v3/ all
-    # in one place) and only one is the documented, intended release.
-    direct_path_prefix: str | None = None
-
-
-# Design doc Section 5's source column, translated into loadable HF ids.
-# These are the primary source per domain; if a listed dataset is
-# unavailable or gated when you actually run this, that's the moment to
-# widen the domain (per the design doc's note on physics) rather than
-# silently substitute something narrower.
-CORPUS_REGISTRY: dict[str, CorpusSpec] = {
+    direct_path_prefix: str | None = NoneCORPUS_REGISTRY: dict[str, CorpusSpec] = {
     "code": CorpusSpec(
-        # NOT the-stack-v2-dedup: despite the name, that dataset ships only
-        # metadata and Software Heritage blob IDs, not file content -- every
-        # row's text field is empty, and reconstructing real content
-        # requires a separate AWS-credentialed download from Software
-        # Heritage's S3 bucket (hours by itself, per BigCode's own docs).
-        # starcoderdata is BigCode's earlier corpus that ships real content
-        # directly in the parquet files -- what this pipeline actually needs.
-        # Gated separately from the-stack-v2-dedup -- accept its license at
-        # huggingface.co/datasets/bigcode/starcoderdata before running this.
         domain="code",
         hf_dataset="bigcode/starcoderdata",
         hf_config=None,
@@ -96,15 +70,6 @@ CORPUS_REGISTRY: dict[str, CorpusSpec] = {
         text_field="text",
     ),
     "physics": CorpusSpec(
-        # NOT hf_config="v3": that isn't a documented release (an
-        # undocumented data/v3/ folder exists in the repo, but the README
-        # only describes and recommends v1 and v2). peS2o also ships via an
-        # old-style loading script (peS2o.py), which newer `datasets`
-        # versions refuse to run without trust_remote_code -- and even with
-        # that, it's a script the maintainers, not this project, control.
-        # use_direct_download bypasses datasets entirely: list the repo's
-        # actual files, restrict to the documented v2 release via
-        # direct_path_prefix, and read its .json.gz files straight.
         domain="physics",
         hf_dataset="allenai/peS2o",
         hf_config=None,
@@ -183,23 +148,6 @@ _DIRECT_READERS = {
 
 
 def _open_stream_direct(spec: CorpusSpec, seed: int, skip_docs: int):
-    """Downloads whole files one at a time via hf_hub_download (plain
-    HTTP, following redirects, with huggingface_hub's own retry logic) and
-    reads rows out of each locally -- slower to reach the first row than
-    true streaming, since it waits for a full file rather than a row at a
-    time, but avoids both the Xet CAS protocol and, for script-based
-    repos, `datasets`' refusal to run untrusted loading code.
-
-    Handles whichever of `_DIRECT_READERS`' extensions the repo's files
-    actually use (parquet for starcoderdata, json.gz for peS2o) -- checked
-    per file, so a repo mixing formats would still work, though none of
-    the currently-configured ones do.
-
-    `skip_docs` is honoured at the row level across files in shuffle
-    order, matching what the datasets-streaming path guarantees for
-    resume: rerunning with the same seed reproduces the same file order,
-    and skip_docs fast-forwards past whichever rows were already consumed.
-    """
     from huggingface_hub import HfApi, hf_hub_download
 
     api = HfApi()
@@ -279,15 +227,6 @@ def tokenize_domain(domain: str, target_tokens: int, out_root: Path,
         f"tokenizer vocab_size {tok.vocab_size} doesn't fit in uint16 -- "
         f"shards would silently wrap around and corrupt token ids"
     )
-    # StarCoder2's config.json/generation_config.json ship a leftover GPT-2
-    # bos/eos_token_id (50256) that doesn't fit its own 49,152-token
-    # vocabulary -- a known upstream bug (see bigcode/starcoder2-15b
-    # discussion #14). tok.eos_token_id itself resolves correctly from the
-    # tokenizer's own special_tokens_map.json, not the buggy config field,
-    # but this assertion exists so ANY tokenizer with a similarly
-    # inconsistent config fails loudly here rather than writing an
-    # out-of-vocabulary id into shards that only surfaces as an embedding
-    # index-out-of-range crash hours into real training.
     assert 0 <= eos_id < tok.vocab_size, (
         f"{tokenizer_name}'s eos_token_id ({eos_id}) is outside its own "
         f"vocab_size ({tok.vocab_size}) -- refusing to use it as a "
@@ -302,10 +241,6 @@ def tokenize_domain(domain: str, target_tokens: int, out_root: Path,
     shard_idx = len(manifest["shards"])
     docs_this_run = 0
     empty_text_count = 0
-    # tracks tokens accumulated THIS RUN, independent of manifest["total_tokens"]
-    # (which only advances when a shard actually flushes to disk -- see the
-    # bug this fixes: for a target smaller than shard_tokens, that value
-    # would never move, and the loop below would never stop early)
     buf_total_tokens_seen = manifest["total_tokens"]
     t0 = time.time()
 
@@ -340,15 +275,6 @@ def tokenize_domain(domain: str, target_tokens: int, out_root: Path,
         if not text:
             docs_this_run += 1
             empty_text_count += 1
-            # Fail fast rather than silently burning bandwidth: this is
-            # exactly the failure mode that cost real time against
-            # the-stack-v2-dedup, whose rows carry Software Heritage blob
-            # IDs instead of content -- every row's text field was empty,
-            # and nothing caught it until a download eventually crashed
-            # tens of minutes in. If the first WINDOW documents are all
-            # empty, the text_field is almost certainly wrong for this
-            # dataset; stop immediately instead of continuing to download
-            # multi-gigabyte files that will never produce a token.
             window = 50
             if docs_this_run >= window and empty_text_count == docs_this_run:
                 raise RuntimeError(
@@ -373,12 +299,6 @@ def tokenize_domain(domain: str, target_tokens: int, out_root: Path,
         while len(buf) >= shard_tokens:
             flush_shard()
 
-    # Final partial shard: written and counted, but genuinely partial --
-    # the loader treats every shard in the manifest identically regardless
-    # of size, so this is safe, just slightly smaller than the rest.
-    # Unconditional: docs_consumed was already advanced for every document
-    # whose tokens are sitting in buf, so leaving them unflushed here would
-    # silently lose real, already-counted data.
     if buf:
         flush_shard()
 
