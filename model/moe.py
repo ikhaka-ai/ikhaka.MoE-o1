@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 #This is the code that makes this an MoE rather than a dense transformer
 #Motivation: Routing is difficult and supervised. The domain expert will pick it's expert. There
 #is no router network, no learned gate, no top-k softmax over experts. Every token in a given sequence

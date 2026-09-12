@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 """
 this code wires the model/layer interfaces (shared trunk) to the model(mixture of
 experts into the full model.

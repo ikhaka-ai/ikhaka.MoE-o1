@@ -1,5 +1,3 @@
-Try AI directly in your favourite apps … Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI
-
 #shared trunk. Every layer in this file runs identically regardless of the domain
 #a token belongs to. This enables the four experts to work together later on.
 #They all read and write to the same residual stream shaped by the same attention.
