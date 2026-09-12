@@ -142,7 +142,7 @@ Total, including a failed run and ablations: roughly **$80–120**. Phase 0 is n
 
 ## Scaling Ladder Results
 
-Phase 2 in progress: the 100M and 500M-token rungs are complete; the 2B-token rung is partway through (~71,02% at last checkpoint). Both completed rungs pass the two sanity checks the ladder is built around — no rung regressed against its own starting loss, and loss improved meaningfully from the smaller rung to the larger one (3.72 → 2.62).
+Phase 2 in progress: the 100M and 500M-token rungs are complete; the 2B-token rung is partway through (~74% at last checkpoint). Both completed rungs pass the two sanity checks the ladder is built around — no rung regressed against its own starting loss, and loss improved meaningfully from the smaller rung to the larger one (3.72 → 2.62).
 
 ![Per-rung loss curves](images/ladder_loss_curves.png)
 
