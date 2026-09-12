@@ -16,6 +16,7 @@ A decoder-only transformer with a **DEMix-style hard-routed MoE** feed-forward l
 │   └── transformer.py      # Block + MoETransformer — the only file that imports both layers.py and moe.py
 ├── train/
 │   └── smoke_test.py       # Phase 0: shape / routing / gradient / param-count checks
+│   └── ladder.py           #Used to evaluate whether loss diverges in 3 training ladder loops (100M, 500M, and 2B tokens)
 └── docs/
     └── moe_design_document.pdf   # Full design document (architecture, data, compute, constraints)
 ```
