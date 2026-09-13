@@ -5,3 +5,8 @@ import argparse
 import logging
 import contextlib as contextmanager
 from pathlib import Path
+import torch
+
+from eval.common import CONFIGS, held_out_shard_paths, iter_eval_windows, load_model
+
+from eval.held_out_loss import domain_loss
